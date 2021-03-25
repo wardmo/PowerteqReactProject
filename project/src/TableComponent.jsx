@@ -5,29 +5,51 @@ class TableComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-
+            data: [],
+            isLoaded: false,
         }
     }
 
+    componentDidMount(){
+        fetch('https://jsonplaceholder.typicode.com/albums')
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    isLoaded:true,
+                    data: json,
+                })
+            });
+    }
+
+    
     render() { 
-        return(
-        <table>
-            <th>HEADER</th>
-            <tbody>
-                <tr> Row 1
-                    <td>value 1</td>
-                    <td>value 2</td>
-                    <td>value 3</td>
-                </tr>
+        var{isLoaded, data} = this.state;
+
+        if (!isLoaded){
+            return <div>Loading...</div>
+        }
+        else{
+
+            return(
+            <table>
+                <th>HEADER</th>
                 <tr>
-                    Row 2
-                    <td>value 4</td>
-                    <td>value 5</td>
-                    <td>value 6</td>
+                    <td>ID</td>
+                    <td>ALBUM TITLE</td>
+                    <td>OWNER USER ID</td>
                 </tr>
-            </tbody>
-        </table>
-        )
+                <tbody>
+                    {data.map(item => (
+                        <tr>
+                            <td>{item.id} </td>
+                            <td>{item.title} </td>
+                            <td>{item.userId} </td>
+                        </tr>
+                    ))};
+                </tbody>
+            </table>
+            );
+        }
     }
 }
 export default TableComponent;
