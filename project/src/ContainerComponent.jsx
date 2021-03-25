@@ -6,16 +6,30 @@ class ContainerComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-
+            active: 'Table'
         }
     }
 
+
+    handleClick(){
+        var active = this.state.active;
+        var newActive = active == 'Table' ? 'Form' : 'Table';
+        this.setState({
+            active : newActive
+        })
+    }
+
     render() {
+        var active = this.state.active;
         return(
             <div>
-                <button>This button changes between table view and form view</button>
-                <TableComponent />
-                <FormComponent />
+                <button onClick={this.handleClick.bind(this)}> This button changes between table view and form view</button>
+                {active == 'Table' ? (
+                    <TableComponent/>
+                ) : active == 'Form' ? (
+                    <FormComponent />
+                ) : null}
+                
             </div>
         )
     }
