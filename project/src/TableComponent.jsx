@@ -1,32 +1,44 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
+const API_URL = "https://jsonplaceholder.typicode.com/albums";
 
 class TableComponent extends React.Component {
     constructor() {
         super();
-        this.state = {
 
-        }
+        this.state = {
+            albumData: []
+        };
     }
 
-    render() { 
-        return(
-        <table>
-            <th>HEADER</th>
-            <tbody>
-                <tr> Row 1
-                    <td>value 1</td>
-                    <td>value 2</td>
-                    <td>value 3</td>
+    componentDidMount() {
+        fetch(API_URL)
+            .then(response => response.json())
+            .then(data => this.setState({
+                albumData: data
+            }));
+    }
+
+    renderTableDate = () => {
+        return this.state.albumData.map((album, index) => {
+            return (
+                <tr key={album.id}>
+                    <td>{album.id}</td>
+                    <td>{album.title}</td>
+                    <td>{album.userId}</td>
                 </tr>
-                <tr>
-                    Row 2
-                    <td>value 4</td>
-                    <td>value 5</td>
-                    <td>value 6</td>
-                </tr>
-            </tbody>
-        </table>
+            )
+        })
+    }
+
+    render() {
+        return (
+            <table>
+                <th>ID</th>
+                <th>ALBUM TITLE</th>
+                <th>OWNER USER ID</th>
+                {this.renderTableDate()}
+            </table>
         )
     }
 }
