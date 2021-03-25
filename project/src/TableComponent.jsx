@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 const API_URL = "https://jsonplaceholder.typicode.com/albums";
 
 class TableComponent extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             albumData: []

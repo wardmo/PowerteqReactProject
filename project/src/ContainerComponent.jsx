@@ -3,8 +3,9 @@ import FormComponent from './FormComponent';
 import TableComponent from './TableComponent';
 
 class ContainerComponent extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        
         this.state = {
             showTableComponent: true,
             showFormComponent: false
