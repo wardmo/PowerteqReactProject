@@ -34,10 +34,16 @@ class TableComponent extends React.Component {
     render() {
         return (
             <table>
-                <th>ID</th>
-                <th>ALBUM TITLE</th>
-                <th>OWNER USER ID</th>
-                {this.renderTableDate()}
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ALBUM TITLE</th>
+                        <th>OWNER USER ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.renderTableDate()}
+                </tbody>
             </table>
         )
     }
