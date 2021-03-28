@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import FormComponent from './FormComponent';
 import TableComponent from './TableComponent';
 
@@ -6,16 +6,22 @@ class ContainerComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-
+            bShowTable:false
         }
+    }
+
+    buttonClick(){
+        this.setState({bShowTable:!this.state.bShowTable});
     }
 
     render() {
         return(
             <div>
-                <button>This button changes between table view and form view</button>
-                <TableComponent />
-                <FormComponent />
+                <button  onClick={() => this.buttonClick()}>This button changes between table view and form view</button>
+             
+                {   this.state.bShowTable ?    <TableComponent />:null }
+
+                {   !this.state.bShowTable ?  <FormComponent />:null }
             </div>
         )
     }
