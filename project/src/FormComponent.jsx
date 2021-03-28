@@ -1,43 +1,48 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 
 class FormComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-            name:"",
-            email:"",
-            response:""
+            name: "",
+            email: "",
+            response: [],
+            isLoading: true,
         }
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onLoginClick = this.onLoginClick.bind(this);
     }
 
-    onLoginClick(event){
-        if(event)
+    onLoginClick(event) {
+        if (event)
             event.preventDefault();
 
-        console.log(this.state.name);
+        fetch("https://jsonplaceholder.typicode.com/users?username=" + this.state.name + "&email=" + this.state.email)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        response: result,
+                        isLoading: false
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoading: false
+                    });
+                }
+            )
 
-        fetch("https://jsonplaceholder.typicode.com/users?username="+this.state.name+"&email="+ this.state.email)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            this.setState({
-                response: result.length>0?result:"No User Found"
-            });
-          },
-          (error) => {
-          }
-          )
-        
     }
 
-    onChangeInput(event){
-        this.setState({[event.target.name]: event.target.value});
+    onChangeInput(event) {
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     render() {
+        const { response, isLoading } = this.state;
+
         return (
             <form onSubmit={this.onLoginClick}>
                 <div>
@@ -50,8 +55,23 @@ class FormComponent extends React.Component {
                 </div>
                 <input type="submit" value="Submit" />
                 <div>
-                {this.state.response}
+                    {
+                        isLoading ? null
+                            :
+                            (response.length > 0)
+                                ?
+                                response.map(user => {
+                                    return <div key={user.id}>
+                                        {
+                                            JSON.stringify(user)
+                                        }
+                                    </div>
+                                })
+
+                                : "No User Found"
+                    }
                 </div>
+
             </form>
         )
     }

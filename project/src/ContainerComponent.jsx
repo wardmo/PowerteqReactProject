@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import FormComponent from './FormComponent';
 import TableComponent from './TableComponent';
 
