@@ -1,33 +1,48 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { getAlbumData } from './NetworkCall';
 
 
-class TableComponent extends React.Component {
+class TableComponent extends Component {
     constructor() {
         super();
         this.state = {
-
+            albumsData: []
         }
     }
 
-    render() { 
-        return(
-        <table>
-            <th>HEADER</th>
-            <tbody>
-                <tr> Row 1
-                    <td>value 1</td>
-                    <td>value 2</td>
-                    <td>value 3</td>
-                </tr>
-                <tr>
-                    Row 2
-                    <td>value 4</td>
-                    <td>value 5</td>
-                    <td>value 6</td>
-                </tr>
-            </tbody>
-        </table>
-        )
+    componentDidMount() {
+
+        getAlbumData().then((response) => {
+            this.setState({
+                albumsData: response.data,
+            });
+        });
+    }
+
+    render() {
+        if (this.props.tab)
+            return (
+                <table>
+                    <th>HEADER</th>
+                    <tbody>
+                        <tr>
+                            <td>Id</td>
+                            <td>Owner User Id</td>
+                            <td>Album Title</td>
+                        </tr>
+                        {this.state.albumsData.map(data => {
+                            return (
+                                <tr>
+                                    <td>{data.id}</td>
+                                    <td>{data.userId}</td>
+                                    <td>{data.title}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            )
+        else return (<div></div>)
     }
 }
 export default TableComponent;
